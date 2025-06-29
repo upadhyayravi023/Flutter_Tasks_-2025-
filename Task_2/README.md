@@ -18,8 +18,11 @@ This project implements a Flutter-based chatbot using the Gemini API, enabling u
 
 
 
+https://github.com/user-attachments/assets/ba6986d2-887a-41f6-8e57-6360ff29d15f
 
-Uploading Demo_video.mp4…
+
+
+
 
 
 
