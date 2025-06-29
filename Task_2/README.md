@@ -30,8 +30,7 @@ https://github.com/user-attachments/assets/ba6986d2-887a-41f6-8e57-6360ff29d15f
 
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
-3. Create a new Folder with your name and inside that folder create your flutter project and start working on that.
-3. Sample folder structure is provided as Folder name `Dev` , you should follow this structure.
+3. Create a new Folder with your name and inside that folder (task2) create your flutter project and start working on that
  
 3. Make your changes.
 4. Commit your changes (`git commit -m 'Add new feature'`).
