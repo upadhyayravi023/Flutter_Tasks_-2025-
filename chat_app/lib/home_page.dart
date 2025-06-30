@@ -1,5 +1,6 @@
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,6 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final Gemini gemini = Gemini.instance;
   
   ChatUser currentUser = ChatUser(
       id: "0",
@@ -23,26 +26,42 @@ class _HomePageState extends State<HomePage> {
 
   List<ChatMessage> messages = [];
 
+  Widget _buildUI() {
+    return DashChat(
+        currentUser: currentUser, onSend: _sendMessage, messages: messages);
+  }
+
+  void _sendMessage(ChatMessage chatMessage) {
+    setState(() {
+      messages = [chatMessage, ...messages];
+    });
+    try {
+      String question = chatMessage.text;
+      gemini.promptStream(parts: [Part.text(question)]).listen(
+              (event) {
+          print(event?.output);
+        });
+
+    } catch (e) {
+      print('error ${e}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title:Text("My AI ChatBot"),
+        title:Text("My AI ChatBot", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.blue,
+
       ),
       body: _buildUI(),
     );
 
-    Widget _buildUI() {
-      return DashChat(
-          currentUser: currentUser, onSend: _sendMessage, messages: messages);
-    }
 
-    void _sendMessage(ChatMessage chatMessage) {
-      setState(() {
-        messages = [chatMessage, ...messages];
-      });
-    }
+
+
   }
 }

@@ -1,6 +1,7 @@
 import 'package:chat_app/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'home_page.dart';
 
 void main() {
   
