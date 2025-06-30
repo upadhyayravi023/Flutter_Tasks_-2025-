@@ -26,25 +26,63 @@ class _HomePageState extends State<HomePage> {
 
   List<ChatMessage> messages = [];
 
+  ChatMessage? _currentBotGeneratingMessage;
+
   Widget _buildUI() {
     return DashChat(
-        currentUser: currentUser, onSend: _sendMessage, messages: messages);
+        currentUser: currentUser, onSend: _sendMessage, messages: messages,
+      typingUsers: _currentBotGeneratingMessage != null ? [geminiUser] : [],
+    );
   }
 
   void _sendMessage(ChatMessage chatMessage) {
     setState(() {
-      messages = [chatMessage, ...messages];
+      messages.add(chatMessage);
     });
+
+    _currentBotGeneratingMessage = ChatMessage(
+        user: geminiUser,
+        createdAt: DateTime.now(),
+        text: '',
+    );
+    setState(() {
+      messages.add(_currentBotGeneratingMessage!);
+    });
+
     try {
       String question = chatMessage.text;
-      gemini.promptStream(parts: [Part.text(question)]).listen(
-              (event) {
-          print(event?.output);
-        });
+      gemini.promptStream(parts: [Part.text(question)]).listen((event) {
+                String chunkText = "";
+
+          if (event?.content != null && event?.content!.parts != null) {
+
+            chunkText = event!.content!.parts!.fold("", (previous,current) {
+              if (current is TextPart) {
+                return "$previous ${current.text}";
+              }
+              return previous;
+            });
+
+          }
+
+          if (chunkText.isNotEmpty && _currentBotGeneratingMessage != null) {
+            setState(() {
+              _currentBotGeneratingMessage!.text += chunkText;
+            });
+          }
+
+        },
+        onDone: () {
+                setState(() {
+                  _currentBotGeneratingMessage = null;
+                });
+        }
+      );
 
     } catch (e) {
       print('error ${e}');
     }
+
   }
 
   @override
