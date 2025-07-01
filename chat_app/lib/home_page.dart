@@ -28,10 +28,37 @@ class _HomePageState extends State<HomePage> {
 
   ChatMessage? _currentBotGeneratingMessage;
 
+  final ScrollController _scrollController = ScrollController();
+
   Widget _buildUI() {
     return DashChat(
-        currentUser: currentUser, onSend: _sendMessage, messages: messages,
+        currentUser: currentUser, onSend: _sendMessage, messages: messages.reversed.toList(),
       typingUsers: _currentBotGeneratingMessage != null ? [geminiUser] : [],
+      messageListOptions: MessageListOptions(
+        scrollController: _scrollController,
+        showDateSeparator: true,
+      ),
+      messageOptions: MessageOptions(
+        showOtherUsersAvatar: true,
+        showOtherUsersName: true,
+        showCurrentUserAvatar: true,
+        currentUserContainerColor: Colors.blue,
+        containerColor: Colors.grey,
+        currentUserTextColor: Colors.black,
+        borderRadius: 20,
+        showTime: true,
+        messagePadding: const EdgeInsets.all(20),
+
+
+      ),
+      inputOptions: InputOptions(
+        inputToolbarPadding: const EdgeInsets.all(12),
+        inputDecoration: InputDecoration(
+          hintText: "Ask something...",
+          filled: true,
+        ),
+      ),
+
     );
   }
 
@@ -76,13 +103,20 @@ class _HomePageState extends State<HomePage> {
                 setState(() {
                   _currentBotGeneratingMessage = null;
                 });
-        }
+        },
       );
 
     } catch (e) {
       print('error ${e}');
     }
 
+  }
+
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
