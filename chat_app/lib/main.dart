@@ -16,6 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.pinkAccent,
+      ),
       title: 'Chat App',
       debugShowCheckedModeBanner: false,
       home: HomePage(),

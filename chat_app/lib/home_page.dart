@@ -1,6 +1,10 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   ChatUser currentUser = ChatUser(
       id: "0",
       firstName: "You",
-      profileImage: "https://tse3.mm.bing.net/th/id/OIP.lkVN1WDlcV2jQCq-9LT7-wHaIJ?rs=1&pid=ImgDetMain&o=7&rm=3"
+      profileImage: "https://icon-library.com/images/female-user-icon/female-user-icon-8.jpg"
   );
   ChatUser geminiUser = ChatUser(
       id: "1",
@@ -57,6 +61,11 @@ class _HomePageState extends State<HomePage> {
           hintText: "Ask something...",
           filled: true,
         ),
+        trailing: [
+          IconButton(
+            onPressed: _sendMediaMessage,
+            icon: Icon(Icons.image, color: Colors.blue, size: 40,))
+        ]
       ),
 
     );
@@ -78,7 +87,22 @@ class _HomePageState extends State<HomePage> {
 
     try {
       String question = chatMessage.text;
-      gemini.promptStream(parts: [Part.text(question)]).listen((event) {
+      List<Uint8List>? images;
+
+      if (chatMessage.medias?.isNotEmpty ?? false) {
+        images = [
+          File(chatMessage.medias!.first.url).readAsBytesSync()
+        ];
+
+      }
+
+      List<Part> parts = [Part.text(question)];
+
+      if (images != null) {
+        parts.add(Part.uint8List(images.first));
+      }
+
+      gemini.promptStream(parts: parts).listen((event) {
                 String chunkText = "";
 
           if (event?.content != null && event?.content!.parts != null) {
@@ -110,6 +134,22 @@ class _HomePageState extends State<HomePage> {
       print('error ${e}');
     }
 
+  }
+
+  void _sendMediaMessage () async {
+    ImagePicker picker = ImagePicker();
+    XFile? file = await picker.pickImage(source: ImageSource.gallery);
+    if (file != null) {
+      ChatMessage chatMessage = ChatMessage(
+          user: currentUser,
+          createdAt: DateTime.now(),
+          text: "Describe this picture?",
+          medias: [
+            ChatMedia(url: file.path, fileName: "", type: MediaType.image )
+          ]
+      );
+      _sendMessage(chatMessage);
+    }
   }
 
 
