@@ -5,11 +5,11 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: ".env");
-  // final String apiKey = dotenv.env['API_KEY']!;
-  // Gemini.init(apiKey: apiKey);
+  final String apiKey = dotenv.env['API_KEY']!;
+  Gemini.init(apiKey: apiKey);
 
   runApp(MyApp());
 }
@@ -32,6 +32,7 @@ class homePage extends StatefulWidget {
   State<homePage> createState() => _homePageState();
 }
 class _homePageState extends State<homePage>{
+  final Gemini gemini = Gemini.instance;
   ChatUser currentUser = ChatUser(id: "1", firstName: "You" );
   ChatUser bot = ChatUser(id: "2", firstName: "Gemini", profileImage: "assets/images/gemini.png" );
   List<ChatMessage> messages= [];
@@ -64,6 +65,40 @@ class _homePageState extends State<homePage>{
     setState(() {
       messages=[chatMessage, ...messages];
     });
+    try{
+      String question = chatMessage.text;
+      gemini.promptStream(parts: [Part.text(question)]).listen((event){
+        ChatMessage? lastMessage = messages.firstOrNull;
+        if(lastMessage!=null && lastMessage.user==bot){
+          lastMessage = messages.removeAt(0);
+          String response = event?.content?.parts
+              ?.whereType<TextPart>()
+              .map((part) => part.text.trim()+" ")
+              .join(" ") ?? "";
+
+          lastMessage.text += response;
+          setState(() {
+            messages=[lastMessage!, ...messages];
+          });
+
+        }
+        else{
+          String response = event?.content?.parts
+              ?.whereType<TextPart>()
+              .map((part) => part.text.trim()+" ")
+              .join(" ") ?? "";
+
+          ChatMessage newMessage = ChatMessage(user: bot, createdAt: DateTime.now(),text: response);
+          setState(() {
+            messages=[newMessage, ...messages];
+          });
+        }
+
+      });
+
+    }catch(e){
+      print(e);
+    }
 
 
   }
