@@ -1,7 +1,12 @@
+
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 void main() async {
@@ -34,7 +39,7 @@ class homePage extends StatefulWidget {
 class _homePageState extends State<homePage>{
   final Gemini gemini = Gemini.instance;
   ChatUser currentUser = ChatUser(id: "1", firstName: "You" );
-  ChatUser bot = ChatUser(id: "2", firstName: "Gemini", profileImage: "assets/images/gemini.png" );
+  ChatUser bot = ChatUser(id: "2", firstName: "Gemini", profileImage: "assets/images/gemini.avif" );
   List<ChatMessage> messages= [];
   Widget build(BuildContext context){
     return Scaffold(
@@ -49,57 +54,82 @@ class _homePageState extends State<homePage>{
   }
   Widget appUI(){
     return DashChat(
+      inputOptions: InputOptions(trailing: [IconButton(
+          onPressed: sendImage,
+          icon: Icon(Icons.image_outlined)
+        )]),
         currentUser: currentUser,
         onSend: sendMessage,
         messages: messages,
       messageOptions: MessageOptions(
         currentUserContainerColor: Colors.blue[300],
         currentUserTextColor: Colors.black,
-        containerColor: Colors.white24,
+        containerColor: Colors.black26,
         textColor: Colors.black,
       ),
     );
   }
 
-  void sendMessage(ChatMessage chatMessage){
+  void sendMessage(ChatMessage chatMessage) {
     setState(() {
-      messages=[chatMessage, ...messages];
+      messages = [chatMessage, ...messages];
     });
-    try{
-      String question = chatMessage.text;
-      gemini.promptStream(parts: [Part.text(question)]).listen((event){
-        ChatMessage? lastMessage = messages.firstOrNull;
-        if(lastMessage!=null && lastMessage.user==bot){
-          lastMessage = messages.removeAt(0);
-          String response = event?.content?.parts
-              ?.whereType<TextPart>()
-              .map((part) => part.text.trim()+" ")
-              .join(" ") ?? "";
+    try {
 
-          lastMessage.text += response;
-          setState(() {
-            messages=[lastMessage!, ...messages];
-          });
-
-        }
-        else{
-          String response = event?.content?.parts
-              ?.whereType<TextPart>()
-              .map((part) => part.text.trim()+" ")
-              .join(" ") ?? "";
-
-          ChatMessage newMessage = ChatMessage(user: bot, createdAt: DateTime.now(),text: response);
-          setState(() {
-            messages=[newMessage, ...messages];
-          });
-        }
-
-      });
-
-    }catch(e){
+      if(chatMessage.medias?.isNotEmpty ?? false){
+        final imageFile = File(chatMessage.medias!.first.url);
+        final Uint8List imageBytes = imageFile.readAsBytesSync();
+        gemini.promptStream(parts: [Part.uint8List(imageBytes)]).listen((event) {
+        handleEvent(event);
+        });
+      }
+      else {
+        String question = chatMessage.text;
+        gemini.promptStream(parts: [Part.text(question)]).listen((event) {
+          handleEvent(event);
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong")));
       print(e);
     }
-
-
   }
+
+   void sendImage() async{
+      ImagePicker imagePicker = ImagePicker();
+      XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
+      if(image!=null){
+        ChatMessage chatMessage = ChatMessage(user: currentUser, createdAt:DateTime.now(), medias: [ChatMedia(url: image.path, fileName: image.name, type:MediaType.image )], text: "Describe this image");
+       sendMessage(chatMessage);
+      }
+   }
+
+   void handleEvent(event){
+     ChatMessage? lastMessage = messages.firstOrNull;
+     if (lastMessage != null && lastMessage.user == bot) {
+       lastMessage = messages.removeAt(0);
+       String response = event?.content?.parts
+           ?.whereType<TextPart>()
+           .map((part) => part.text.trim() + " ")
+           .join(" ") ?? "";
+
+       lastMessage.text += response;
+       setState(() {
+         messages = [lastMessage!, ...messages];
+       });
+     }
+     else {
+       String response = event?.content?.parts
+           ?.whereType<TextPart>()
+           .map((part) => part.text.trim() + " ")
+           .join(" ") ?? "";
+
+       ChatMessage newMessage = ChatMessage(
+           user: bot, createdAt: DateTime.now(), text: response);
+       setState(() {
+         messages = [newMessage, ...messages];
+       });
+     }
+   }
+
 }
