@@ -1,7 +1,5 @@
-
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,8 +9,13 @@ import 'package:image_picker/image_picker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try{
+    await dotenv.load(fileName: ".env");
+  }catch(e){
+    print("FATAL: Error loading .env file: $e");
+    return;
+  }
 
-  await dotenv.load(fileName: ".env");
   final String apiKey = dotenv.env['API_KEY']!;
   Gemini.init(apiKey: apiKey);
 
@@ -37,15 +40,17 @@ class homePage extends StatefulWidget {
   State<homePage> createState() => _homePageState();
 }
 class _homePageState extends State<homePage>{
+  List<Content> chatHistory=[];
   final Gemini gemini = Gemini.instance;
-  ChatUser currentUser = ChatUser(id: "1", firstName: "You" );
+  ChatUser currentUser = ChatUser(id: "1", firstName: "You" ,profileImage:"assets/images/user.avif" );
   ChatUser bot = ChatUser(id: "2", firstName: "Gemini", profileImage: "assets/images/gemini.avif" );
   List<ChatMessage> messages= [];
   Widget build(BuildContext context){
     return Scaffold(
+
       backgroundColor: Colors.lightBlue[50],
       appBar: AppBar(
-        title: Text("ChatBot", style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 30)),
+        title: Text(" My ChatBot", style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 30)),
         backgroundColor: Colors.lightBlue[900],
         centerTitle: true,
       ),
@@ -56,7 +61,7 @@ class _homePageState extends State<homePage>{
     return DashChat(
       inputOptions: InputOptions(trailing: [IconButton(
           onPressed: sendImage,
-          icon: Icon(Icons.image_outlined)
+          icon: Icon(Icons.image_outlined, color: Colors.lightBlue[900],)
         )]),
         currentUser: currentUser,
         onSend: sendMessage,
@@ -66,6 +71,15 @@ class _homePageState extends State<homePage>{
         currentUserTextColor: Colors.black,
         containerColor: Colors.black26,
         textColor: Colors.black,
+        borderRadius: 23,
+        showCurrentUserAvatar: true,
+        showTime: true,
+       currentUserTimeTextColor: Colors.black54,
+       timeTextColor: Colors.black54,
+       showOtherUsersAvatar: true,
+        messagePadding: EdgeInsets.only(left: 10, top:15, right: 10,bottom: 10)
+
+
       ),
     );
   }
@@ -79,15 +93,19 @@ class _homePageState extends State<homePage>{
       if(chatMessage.medias?.isNotEmpty ?? false){
         final imageFile = File(chatMessage.medias!.first.url);
         final Uint8List imageBytes = imageFile.readAsBytesSync();
-        gemini.promptStream(parts: [Part.uint8List(imageBytes)]).listen((event) {
-        handleEvent(event);
+        chatHistory.add(Content(role: 'user' , parts:[Part.uint8List(imageBytes)] ));
+        gemini.streamChat( chatHistory).listen((event){
+          handleEvent(event);
         });
+
       }
       else {
         String question = chatMessage.text;
-        gemini.promptStream(parts: [Part.text(question)]).listen((event) {
+        chatHistory.add(Content(role: 'user',parts:[Part.text(question)] ));
+        gemini.streamChat(chatHistory).listen((event){
           handleEvent(event);
         });
+        
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong")));
@@ -106,30 +124,26 @@ class _homePageState extends State<homePage>{
 
    void handleEvent(event){
      ChatMessage? lastMessage = messages.firstOrNull;
+     String response = event?.content?.parts
+         ?.whereType<TextPart>()
+         .map((part) => part.text.trim() + " ")
+         .join(" ") ?? "";
      if (lastMessage != null && lastMessage.user == bot) {
        lastMessage = messages.removeAt(0);
-       String response = event?.content?.parts
-           ?.whereType<TextPart>()
-           .map((part) => part.text.trim() + " ")
-           .join(" ") ?? "";
-
        lastMessage.text += response;
        setState(() {
          messages = [lastMessage!, ...messages];
        });
      }
      else {
-       String response = event?.content?.parts
-           ?.whereType<TextPart>()
-           .map((part) => part.text.trim() + " ")
-           .join(" ") ?? "";
-
        ChatMessage newMessage = ChatMessage(
            user: bot, createdAt: DateTime.now(), text: response);
        setState(() {
          messages = [newMessage, ...messages];
        });
      }
+     
+     chatHistory.add(Content(role: 'model',parts: [Part.text(response)]));
    }
 
 }
