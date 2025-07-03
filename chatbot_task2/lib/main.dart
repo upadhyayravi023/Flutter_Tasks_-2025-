@@ -40,7 +40,7 @@ class homePage extends StatefulWidget {
   State<homePage> createState() => _homePageState();
 }
 class _homePageState extends State<homePage>{
-  List<Content> chatHistory=[];
+  List<Content> chatHistory =[];
   final Gemini gemini = Gemini.instance;
   ChatUser currentUser = ChatUser(id: "1", firstName: "You" ,profileImage:"assets/images/user.avif" );
   ChatUser bot = ChatUser(id: "2", firstName: "Gemini", profileImage: "assets/images/gemini.avif" );
@@ -105,7 +105,7 @@ class _homePageState extends State<homePage>{
         gemini.streamChat(chatHistory).listen((event){
           handleEvent(event);
         });
-        
+
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong")));
@@ -142,8 +142,8 @@ class _homePageState extends State<homePage>{
          messages = [newMessage, ...messages];
        });
      }
-     
      chatHistory.add(Content(role: 'model',parts: [Part.text(response)]));
+
    }
 
 }
