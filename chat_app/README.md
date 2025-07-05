@@ -10,4 +10,15 @@ Its a simple app designed to answer short queries and describe a picture with th
 
 This app was made for purpose of learning about how to integrate AI in a flutter app.
 
+## Sreenshots
+
+### A simple Hi message
+![screen1](screen1.png)
+
+### Describing a picture
+![screen2](screen2.png)
+
+### Detailed query and streaming responses
+![screen3](screen3.png)
+
 
