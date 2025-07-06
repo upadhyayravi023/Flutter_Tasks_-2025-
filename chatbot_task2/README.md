@@ -19,4 +19,4 @@ This is a flutter-based chat application powered by Gemini API, enabling users t
 
 ## App Demo
 
-[Watch Demo Video](assets/video/chatbot_demo.mp4)
+[Watch Demo Video](https://drive.google.com/file/d/1VRsDubsB07YQhZUPIDYjMEqV3vwKCO_x/view?usp=sharing)
