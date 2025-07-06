@@ -45,6 +45,7 @@ class _homePageState extends State<homePage>{
   ChatUser currentUser = ChatUser(id: "1", firstName: "You" ,profileImage:"assets/images/user.avif" );
   ChatUser bot = ChatUser(id: "2", firstName: "Gemini", profileImage: "assets/images/gemini.avif" );
   List<ChatMessage> messages= [];
+  bool isGeminiTyping = false;
   Widget build(BuildContext context){
     return Scaffold(
 
@@ -66,6 +67,7 @@ class _homePageState extends State<homePage>{
         currentUser: currentUser,
         onSend: sendMessage,
         messages: messages,
+      typingUsers: isGeminiTyping?[bot]:[],
       messageOptions: MessageOptions(
         currentUserContainerColor: Colors.blue[300],
         currentUserTextColor: Colors.black,
@@ -77,7 +79,7 @@ class _homePageState extends State<homePage>{
        currentUserTimeTextColor: Colors.black54,
        timeTextColor: Colors.black54,
        showOtherUsersAvatar: true,
-        messagePadding: EdgeInsets.only(left: 10, top:15, right: 10,bottom: 10)
+        messagePadding: EdgeInsets.only(left: 10, top:15, right: 10,bottom: 8)
 
 
       ),
@@ -87,6 +89,7 @@ class _homePageState extends State<homePage>{
   void sendMessage(ChatMessage chatMessage) {
     setState(() {
       messages = [chatMessage, ...messages];
+      isGeminiTyping = true;
     });
     try {
 
@@ -96,18 +99,46 @@ class _homePageState extends State<homePage>{
         chatHistory.add(Content(role: 'user' , parts:[Part.uint8List(imageBytes)] ));
         gemini.streamChat( chatHistory).listen((event){
           handleEvent(event);
+        },
+        onDone: (){
+          setState(() {
+            isGeminiTyping = false;
+          });
+        },
+          onError: (error){
+          setState(() {
+              isGeminiTyping = false;
+            });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong")));
+          print(error);
         });
-
       }
       else {
         String question = chatMessage.text;
         chatHistory.add(Content(role: 'user',parts:[Part.text(question)] ));
         gemini.streamChat(chatHistory).listen((event){
           handleEvent(event);
-        });
+        },
+            onDone: (){
+              setState(() {
+                isGeminiTyping = false;
+              });
+            },
+          onError: (error){
+          setState(() {
+            isGeminiTyping = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong")));
+          print(error);
+          }
+
+        );
 
       }
     } catch (e) {
+      setState(() {
+        isGeminiTyping = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong")));
       print(e);
     }
