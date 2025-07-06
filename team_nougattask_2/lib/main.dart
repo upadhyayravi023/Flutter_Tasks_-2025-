@@ -27,14 +27,12 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-// You'd need to define ErrorApp and MyApp as in the previous example
-// or your own app structure.
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
   }
