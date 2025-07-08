@@ -10,15 +10,46 @@ Its a simple app designed to answer short queries and describe a picture with th
 
 This app was made for purpose of learning about how to integrate AI in a flutter app.
 
-## Sreenshots
+## How to clone this project
+
+1. In your terminal, clone the project.
+   ```bash
+   git clone repo_url
+   ```
+2. Reach chat_app directory.
+   ```bash
+   cd chat_app
+   ```
+3. Make a const.dart file in the lib folder of this repository.
+   <pre>
+   chat_app/ 
+   |---lib/ 
+   |   |---consts.dart \\make this file
+   |   |---main.dart
+   |   |---home_page.dart
+   |---other folders
+    </pre>
+   
+4. Get your own gemini api key and store it in consts.dart file.
+   ```bash
+   String GEMINI_API_KEY = "your_gemini_api_key"
+   ```
+5. Get the dependencies.
+   ```bash
+   flutter pub get
+   ```
+6. Run the project.
+   ```bash
+   flutter run
+   ```
+
+## Screenshots
 
 ### A simple Hi message
-![screen1](screen1.png)
+<img src="screen1.png" height="700" width="350"/>
 
 ### Describing a picture
-![screen2](screen2.png)
+<img src="screen2.png" height="700" width="350"/>
 
 ### Detailed query and streaming responses
-![screen3](screen3.png)
-
-
+<img src="screen3.png" height="700" width="350"/>
