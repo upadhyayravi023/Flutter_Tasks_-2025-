@@ -33,7 +33,7 @@ flutter run
 Note: Make sure you have a connected virtual device or a physical device ready.
 
 
-How to Download the Application
+## How to Download the Application
 
 You can also install the app via APK file using this Google Drive link
 .
