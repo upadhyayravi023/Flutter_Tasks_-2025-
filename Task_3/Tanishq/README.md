@@ -1,43 +1,39 @@
-Overview 
+# Dice Roller Flutter App
 
-A dice roller app based on flutter
-User login and logout using firebase
-Remembers login session 
-Dark mode functionality
+A simple **Dice Roller** app built with **Flutter**, featuring **Firebase user login/logout**, **persistent login sessions**, and **dark mode support**.
 
+## Overview
 
-Approach and tools used
+This app allows users to:  
+- Roll dice with a simple UI.  
+- Sign up, log in, and log out using **Firebase Authentication**.  
+- Stay logged in until they choose to log out.  
+- Toggle between light and dark mode for the app interface.
 
-Flutter SDK
-Android Studio
-Git And Github 
-Firebase 
+## Approach and Tools Used
 
-Steps to run the project
+- **Flutter SDK** – for building the cross-platform app.  
+- **Android Studio** – for development and testing.  
+- **Git & GitHub** – for version control.  
+- **Firebase** – for authentication and storing user data.
 
-Clone the repo in your desired path on your pc
-Repo link https://github.com/upadhyayravi023/Flutter_Tasks_-2025-
+## Steps to Run the Project
 
-Go to Flutter_Tasks_-2025-/Task_3/Tanishq/Appcode/my_first_app
+1. Clone the repository to your desired location:  
+   
+   git clone https://github.com/upadhyayravi023/Flutter_Tasks_-2025-
+2. Navigate to the app folder:
 
-Open terminal on that folder and run command flutter run
+Flutter_Tasks_-2025-/Task_3/Tanishq/Appcode/my_first_app
 
-Note - Connect appropriate virtual devices first
+3. Open the terminal in that folder and run:
 
+flutter run
 
-
-
-
-
-
-
-
-How to download the application
-
-Follow this drive link to install the application via apk file
-https://drive.google.com/file/d/1siDx0jn987OxOVVbNtevnVkEgVR2YoE6/view?usp=sharing
-
-Make sure you have enabled downloading application from unknown sources option.
+Note: Make sure you have a connected virtual device or a physical device ready.
 
 
+How to Download the Application
 
+You can also install the app via APK file using this Google Drive link
+.
