@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Flutter Project Contribution Guide
 
 Welcome to our Flutter Project! We're thrilled to have you here. This guide will walk you through the steps to contribute to our project. Whether you're reporting bugs, suggesting new features, or submitting pull requests, your contributions are valuable.
@@ -113,3 +114,21 @@ Thank you for contributing to our Flutter Project! Your help is appreciated, and
 For any questions or further assistance, feel free to open an issue or contact the maintainers.
 
 Happy coding! 🚀
+=======
+# rudraksha_task_3
+
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+>>>>>>> 1be292a (initial commit)
