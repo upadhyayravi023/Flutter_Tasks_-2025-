@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "696654367155",
+    "project_id": "teamnougattask-3",
+    "storage_bucket": "teamnougattask-3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696654367155:android:841a334b9e54818a5e23c6",
+        "android_client_info": {
+          "package_name": "com.example.rudraksha_task_3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZv6ZXzQRn1WIoQ_4dwfkpZBpr1t_VSMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
