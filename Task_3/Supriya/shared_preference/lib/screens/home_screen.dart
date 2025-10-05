@@ -17,22 +17,36 @@ class HomeScreen extends StatelessWidget {
           }, icon: const Icon(Icons.logout))
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Welcome!", style: TextStyle(fontSize: 24),),
-            const SizedBox(height: 20,),
-            Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
-            return SwitchListTile(value: themeProvider.isDarkMode,
-            onChanged: (value) {
-              themeProvider.toggleTheme();
-            }
-            );
-            },
-            )
-          ],
-        ),
+      body: Column(
+
+        children: [
+          SizedBox(height: 150,),
+          Text("This is the HomePage...",
+            style: TextStyle(
+                fontSize: 35,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 40,),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text("There is a toggle button in the bottom. Alternate between dark and light mode.",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+          SizedBox(height: 350,),
+          Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
+          return SwitchListTile(value: themeProvider.isDarkMode,
+          onChanged: (value) {
+            themeProvider.toggleTheme();
+          }
+          );
+          },
+          )
+        ],
       ),
     );
   }
