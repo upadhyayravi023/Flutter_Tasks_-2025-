@@ -52,7 +52,6 @@
           <option name="screenY" value="2412" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-<<<<<<< HEAD
           <option name="api" value="35" />
           <option name="brand" value="OnePlus" />
           <option name="codename" value="OP5552L1" />
@@ -65,8 +64,6 @@
           <option name="screenY" value="2412" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-=======
->>>>>>> 79700e1de73e9d225fd526f88dfb7051c89f0615
           <option name="api" value="34" />
           <option name="brand" value="OPPO" />
           <option name="codename" value="OP573DL1" />
@@ -91,7 +88,6 @@
           <option name="screenY" value="2160" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-<<<<<<< HEAD
           <option name="api" value="35" />
           <option name="brand" value="Lenovo" />
           <option name="codename" value="TB330FU" />
@@ -105,8 +101,6 @@
           <option name="screenY" value="1920" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-=======
->>>>>>> 79700e1de73e9d225fd526f88dfb7051c89f0615
           <option name="api" value="34" />
           <option name="brand" value="samsung" />
           <option name="codename" value="a14m" />
@@ -386,21 +380,6 @@
           <option name="screenY" value="384" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-<<<<<<< HEAD
-=======
-          <option name="api" value="35" />
-          <option name="brand" value="motorola" />
-          <option name="codename" value="eqe" />
-          <option name="id" value="eqe" />
-          <option name="labId" value="google" />
-          <option name="manufacturer" value="Motorola" />
-          <option name="name" value="edge 50 pro" />
-          <option name="screenDensity" value="450" />
-          <option name="screenX" value="1220" />
-          <option name="screenY" value="2712" />
-        </PersistentDeviceSelectionData>
-        <PersistentDeviceSelectionData>
->>>>>>> 79700e1de73e9d225fd526f88dfb7051c89f0615
           <option name="api" value="33" />
           <option name="brand" value="google" />
           <option name="codename" value="felix" />
@@ -583,7 +562,6 @@
           <option name="screenY" value="1600" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-<<<<<<< HEAD
           <option name="api" value="35" />
           <option name="brand" value="motorola" />
           <option name="codename" value="kansas" />
@@ -596,8 +574,6 @@
           <option name="screenY" value="1604" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-=======
->>>>>>> 79700e1de73e9d225fd526f88dfb7051c89f0615
           <option name="api" value="34" />
           <option name="brand" value="google" />
           <option name="codename" value="komodo" />
@@ -867,7 +843,6 @@
           <option name="screenY" value="2424" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-<<<<<<< HEAD
           <option name="api" value="36" />
           <option name="brand" value="google" />
           <option name="codename" value="tokay" />
@@ -881,8 +856,6 @@
           <option name="screenY" value="2424" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-=======
->>>>>>> 79700e1de73e9d225fd526f88dfb7051c89f0615
           <option name="api" value="34" />
           <option name="brand" value="samsung" />
           <option name="codename" value="xcover7" />
