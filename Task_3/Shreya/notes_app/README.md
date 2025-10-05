@@ -25,6 +25,6 @@ The app features a minimalist UI with both light and dark mode themes.
 2. Delete Notes: Add a delete option, perhaps using a long-press gesture or a button within the note editor, to remove notes from Firestore.
 3. Bookmarking Notes: Implementation of functionality to bookmark notes and view all the bookmarked notes at one place.
 
-## App Demo
+## App Demo and apk
 
-[Watch Demo Video](https://drive.google.com/file/d/19496PWyEQkiG0P8FrG1GB9BwKh5Lp45R/view?usp=sharing)
+[open folder](https://drive.google.com/drive/folders/10DwcIItSMYwdCfFDynBDlmgkYTctTqOr?usp=sharing)
